@@ -1,0 +1,16 @@
+#!/bin/bash
+
+BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
+JDK_VERSION=http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jdk-8u40-linux-x64.rpm
+
+wget -c \
+-O "$BACKUP_DIR/${JDK_VERSION##*/}" \
+--no-check-certificate --no-cookies \
+--header "Cookie: oraclelicense=accept-securebackup-cookie" "$JDK_VERSION"
+
+sudo yum -y install $BACKUP_DIR/${JDK_VERSION##*/}
+
+cat << 'EOF' | sudo tee /etc/profile.d/java.sh
+export JAVA_HOME=/usr/java/latest/
+export PATH=$JAVA_HOME/bin:$PATH
+EOF

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+COMUM=${COMUM:-/vagrant/comum}
+
+_instalar_tudo() {
+    echo "Instalando tudo ..."
+
+    $COMUM/restaurar-cache-de-pacotes
+    $COMUM/atualizar-e-instalar-pacotes
+    $COMUM/instalar-oracle-jdk
+    $COMUM/instalar-haproxy
+    $COMUM/instalar-wildfly-master
+    $COMUM/salvar-cache-de-pacotes
+}
+
+op=$1
+[ "$op" ] || op=tudo
+type _instalar_$op &> /dev/null && _instalar_$op || { 
+    echo "função \"_instalar_$op\" não encontrada!"
+    exit 1
+}

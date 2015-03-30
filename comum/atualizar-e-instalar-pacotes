@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# atualiza os pacotes
+sudo yum -y --exclude='kernel*' update
+
+# pacotes de utilitários comuns
+sudo yum -y install \
+vim \
+tree \
+patch \
+lsof

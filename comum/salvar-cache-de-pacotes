@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
+VAR_CACHE=$BACKUP_DIR/var_cache.tar
+
+# salva o cache de pacotes
+sudo tar cvfP $VAR_CACHE /var/cache

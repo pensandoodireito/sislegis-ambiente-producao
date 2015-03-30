@@ -1,0 +1,30 @@
+#!/bin/bash
+
+BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
+
+# baixa os pacotes requeridos para a compilação do git
+sudo yum -y groupinstall "Development Tools"
+sudo yum -y install \
+gettext-devel \
+openssl \
+openssl-devel \
+perl-CPAN \
+perl-devel \
+zlib-devel \
+expat \
+expat-devel \
+libcurl-devel
+
+# remove, se existir
+rm -rf git-2.2.2/
+
+# baixa e extrai
+wget https://github.com/git/git/archive/v2.2.2.tar.gz -O git.tar.gz
+tar xvfz git.tar.gz
+
+# compila
+cd git-2.2.2/
+make configure
+./configure --prefix=/usr/local --with-expat --with-openssl
+make
+sudo make install

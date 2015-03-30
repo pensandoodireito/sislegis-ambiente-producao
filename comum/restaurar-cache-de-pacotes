@@ -1,0 +1,13 @@
+#!/bin/bash
+
+BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
+VAR_CACHE=$BACKUP_DIR/var_cache.tar
+
+# configura o Yum para manter o cache de pacotes
+sudo sed -i 's/\(keepcache=\).*/\11/' /etc/yum.conf
+
+# restaura o cache de pacotes do backup, se existir
+if [ -f $VAR_CACHE ]
+then
+    sudo tar xvfP $VAR_CACHE
+fi

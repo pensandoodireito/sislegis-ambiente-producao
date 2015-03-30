@@ -1,0 +1,24 @@
+--- domain.xml.original	2015-03-30 02:38:19.000000000 -0300
++++ domain.xml	2015-03-30 02:44:43.000000000 -0300
+@@ -1519,17 +1519,11 @@
+         </socket-binding-group>
+     </socket-binding-groups>
+     <server-groups>
+-        <server-group name="main-server-group" profile="full">
++        <server-group name="sislegis" profile="full-ha">
+             <jvm name="default">
+-                <heap size="64m" max-size="512m"/>
+-            </jvm>
+-            <socket-binding-group ref="full-sockets"/>
+-        </server-group>
+-        <server-group name="other-server-group" profile="full-ha">
+-            <jvm name="default">
+-                <heap size="64m" max-size="512m"/>
++                <heap size="512m" max-size="512m"/>
+             </jvm>
+             <socket-binding-group ref="full-ha-sockets"/>
+         </server-group>
+     </server-groups>
+-</domain>
+\ No newline at end of file
++</domain>

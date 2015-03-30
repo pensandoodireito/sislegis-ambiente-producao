@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
+
+sudo yum -y install haproxy
