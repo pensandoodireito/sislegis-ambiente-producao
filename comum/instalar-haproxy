@@ -3,3 +3,9 @@
 BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
 
 sudo yum -y install haproxy
+
+f=etc/haproxy/haproxy.cfg
+sudo cp haproxy/$f $(dirname $f)
+
+sudo chkconfig haproxy on
+sudo service haproxy start

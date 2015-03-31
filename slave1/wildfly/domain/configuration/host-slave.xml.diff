@@ -28,6 +28,6 @@
 -                 the default socket-group declared in the server-group -->
 -            <socket-bindings port-offset="150"/>
 -        </server>
-+        <server name="slave1-1" group="sislegis"/>
++        <server name="sislegis1-1" group="sislegis"/>
      </servers>
  </host>

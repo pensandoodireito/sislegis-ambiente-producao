@@ -8,6 +8,7 @@ Vagrant.configure(2) do |config|
     master.vm.hostname="sislegis4"
     master.vm.network "private_network", ip: "172.17.6.84"
     master.vm.network :forwarded_port, guest: 9990, host: 9990
+    master.vm.network :forwarded_port, guest: 80, host: 8080
     master.vm.provider "virtualbox" do |v|
       v.memory = 512
     end
