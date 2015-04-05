@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "slave1" do |slave1|
     slave1.vm.hostname="sislegis1"
     slave1.vm.network "private_network", ip: "172.17.6.81"
-    slave1.vm.network :forwarded_port, guest: 8080, host: 8180
+    #slave1.vm.network :forwarded_port, guest: 8080, host: 8180
     slave1.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "slave2" do |slave2|
     slave2.vm.hostname="sislegis2"
     slave2.vm.network "private_network", ip: "172.17.6.82"
-    slave2.vm.network :forwarded_port, guest: 8080, host: 8280
+    #slave2.vm.network :forwarded_port, guest: 8080, host: 8280
     slave2.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
-
 # baixa os pacotes requeridos para a compilação do git
 sudo yum -y groupinstall "Development Tools"
 sudo yum -y install \

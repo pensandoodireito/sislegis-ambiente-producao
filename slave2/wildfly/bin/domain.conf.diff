@@ -1,11 +1,11 @@
---- domain.conf.original	2015-03-30 04:55:00.000000000 -0300
-+++ domain.conf	2015-03-30 04:56:12.000000000 -0300
+--- domain.conf.original	2015-04-05 00:56:23.416566732 -0300
++++ domain.conf	2015-04-05 00:56:57.275301171 -0300
 @@ -44,6 +44,8 @@
  if [ "x$JAVA_OPTS" = "x" ]; then
     JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
 +   JAVA_OPTS="$JAVA_OPTS -Djboss.domain.master.address=172.17.6.84"
-+   JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=0.0.0.0"
++   JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=172.17.6.82"
  else
     echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
  fi

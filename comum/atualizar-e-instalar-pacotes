@@ -8,4 +8,5 @@ sudo yum -y install \
 vim \
 tree \
 patch \
-lsof
+lsof \
+lynx

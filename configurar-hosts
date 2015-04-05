@@ -1,0 +1,10 @@
+#!/bin/bash
+
+configurar() {
+    local f=/etc/hosts
+
+    grep -q "^$1.*$2" $f || { echo -e "$1\t$2" | sudo tee -a $f; }
+}
+
+configurar 127.0.0.1 sislegis.local
+configurar 127.0.0.1 keycloak.local
