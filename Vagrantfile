@@ -3,50 +3,54 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "boxcutter/centos66"
-  
-  config.vm.define "master" do |master|
-    master.vm.hostname="sislegis4"
-    master.vm.network "private_network", ip: "172.17.6.84"
-    master.vm.network :forwarded_port, guest: 9990, host: 9990
-    master.vm.network :forwarded_port, guest: 80, host: 8080
-    master.vm.provider "virtualbox" do |v|
-      v.memory = 512
-    end
-    master.vm.provision "shell", path: "master/instalar", privileged: false
+
+  # sislegis4 - Wildfly master, HAProxy  
+  config.vm.define "sislegis4" do |sislegis4|
+    sislegis4.vm.hostname="sislegis4"
+    sislegis4.vm.network "private_network", ip: "172.17.6.84"
+    sislegis4.vm.network :forwarded_port, guest: 9990, host: 9990
+    sislegis4.vm.network :forwarded_port, guest: 80, host: 8080
+    sislegis4.vm.provision "shell", path: "sislegis4/instalar", privileged: false
   end
 
-  config.vm.define "slave1" do |slave1|
-    slave1.vm.hostname="sislegis1"
-    slave1.vm.network "private_network", ip: "172.17.6.81"
-    #slave1.vm.network :forwarded_port, guest: 8080, host: 8180
-    slave1.vm.provider "virtualbox" do |v|
+  # sislegis1 - Wildfly slave1
+  config.vm.define "sislegis1" do |sislegis1|
+    sislegis1.vm.hostname="sislegis1"
+    sislegis1.vm.network "private_network", ip: "172.17.6.81"
+    sislegis1.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
-    slave1.vm.provision "shell" do |s|
-      s.path = "slave1/instalar"
-      s.args = "slave1"
+    sislegis1.vm.provision "shell" do |s|
+      s.path = "sislegis1/instalar"
+      s.args = "sislegis1"
       s.privileged = false
     end
   end
 
-  config.vm.define "slave2" do |slave2|
-    slave2.vm.hostname="sislegis2"
-    slave2.vm.network "private_network", ip: "172.17.6.82"
-    #slave2.vm.network :forwarded_port, guest: 8080, host: 8280
-    slave2.vm.provider "virtualbox" do |v|
+  # sislegis2 - Wildfly slave2
+  config.vm.define "sislegis2" do |sislegis2|
+    sislegis2.vm.hostname="sislegis2"
+    sislegis2.vm.network "private_network", ip: "172.17.6.82"
+    sislegis2.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
-    slave2.vm.provision "shell" do |s|
-      s.path = "slave2/instalar"
-      s.args = "slave2"
+    sislegis2.vm.provision "shell" do |s|
+      s.path = "sislegis2/instalar"
+      s.args = "sislegis2"
       s.privileged = false
     end
   end
 
-=begin
-  config.vm.define "postgres" do |postgres|
-    postgres.vm.hostname="sislegis3"
-    postgres.vm.network "private_network", ip: "172.17.6.83"
+  # sislegis3 - Wildfly keycloak, postgresql
+  config.vm.define "sislegis3" do |sislegis3|
+    sislegis3.vm.hostname="sislegis3"
+    sislegis3.vm.network "private_network", ip: "172.17.6.83"
+    sislegis3.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+    sislegis3.vm.provision "shell" do |s|
+      s.path = "sislegis3/instalar"
+      s.privileged = false
+    end
   end
-=end
 end

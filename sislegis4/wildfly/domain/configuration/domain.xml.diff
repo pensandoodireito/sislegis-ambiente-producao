@@ -1,0 +1,73 @@
+--- domain.xml.original	2015-04-22 00:07:30.000000000 -0300
++++ domain.xml	2015-04-22 02:48:55.000000000 -0300
+@@ -1074,10 +1074,31 @@
+                             <password>sa</password>
+                         </security>
+                     </datasource>
++                    <datasource jta="false" jndi-name="java:jboss/datasources/SISLEGIS" pool-name="SISLEGIS" enabled="true" use-ccm="false">
++                        <connection-url>jdbc:postgresql://172.17.6.83:5432/sislegis</connection-url>
++                        <driver>postgresql</driver>
++                        <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
++                        <pool>
++                            <min-pool-size>10</min-pool-size>
++                            <max-pool-size>100</max-pool-size>
++                            <prefill>true</prefill>
++                        </pool>
++                        <security>
++                            <user-name>sislegis</user-name>
++                            <password>sislegis</password>
++                        </security>
++                        <statement>
++                            <prepared-statement-cache-size>32</prepared-statement-cache-size>
++                            <share-prepared-statements>true</share-prepared-statements>
++                        </statement>
++                    </datasource>
+                     <drivers>
+                         <driver name="h2" module="com.h2database.h2">
+                             <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                         </driver>
++                        <driver name="postgresql" module="org.postgresql">
++                            <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
++                        </driver>
+                     </drivers>
+                 </datasources>
+             </subsystem>
+@@ -1256,7 +1277,7 @@
+             </subsystem>
+             <subsystem xmlns="urn:jboss:domain:messaging:2.0">
+                 <hornetq-server>
+-                    <cluster-password>${jboss.messaging.cluster.password:CHANGE ME!!}</cluster-password>
++                    <cluster-password>${jboss.messaging.cluster.password:sislegis-cluster}</cluster-password>
+                     <journal-file-size>102400</journal-file-size>
+                     <connectors>
+                         <http-connector name="http-connector" socket-binding="http">
+@@ -1414,6 +1435,7 @@
+                         <filter-ref name="server-header"/>
+                         <filter-ref name="x-powered-by-header"/>
+                     </host>
++                    <host name="sislegis" alias="sislegis.mj.gov.br" default-web-module="sislegis.war"/>
+                 </server>
+                 <servlet-container name="default">
+                     <jsp-config/>
+@@ -1519,17 +1541,11 @@
+         </socket-binding-group>
+     </socket-binding-groups>
+     <server-groups>
+-        <server-group name="main-server-group" profile="full">
+-            <jvm name="default">
+-                <heap size="64m" max-size="512m"/>
+-            </jvm>
+-            <socket-binding-group ref="full-sockets"/>
+-        </server-group>
+-        <server-group name="other-server-group" profile="full-ha">
++        <server-group name="sislegis" profile="full-ha">
+             <jvm name="default">
+-                <heap size="64m" max-size="512m"/>
++                <heap size="512m" max-size="512m"/>
+             </jvm>
+             <socket-binding-group ref="full-ha-sockets"/>
+         </server-group>
+     </server-groups>
+-</domain>
+\ No newline at end of file
++</domain>

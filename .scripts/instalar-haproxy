@@ -1,6 +1,7 @@
 #!/bin/bash
 
-MASTER=${MASTER:-/vagrant/master}
+BASE_DIR=${BASE_DIR:-/vagrant}
+MASTER=${MASTER:-$BASE_DIR/master}
 
 sudo yum -y install haproxy
 

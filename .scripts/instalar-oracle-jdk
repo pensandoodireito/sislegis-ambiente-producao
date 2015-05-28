@@ -1,7 +1,8 @@
 #!/bin/bash
 
-BACKUP_DIR=${BACKUP_DIR:-/vagrant/.backup}
-JDK_VERSION=http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jdk-8u40-linux-x64.rpm
+BASE_DIR=${BASE_DIR:-/vagrant}
+BACKUP_DIR=${BACKUP_DIR:-$BASE_DIR/.backup}
+JDK_VERSION=http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.rpm
 
 wget -c \
 -O "$BACKUP_DIR/${JDK_VERSION##*/}" \

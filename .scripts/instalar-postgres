@@ -1,0 +1,52 @@
+#!/bin/bash
+set +x
+
+BASE_DIR=${BASE_DIR:-/vagrant}
+SCRIPTS=${SCRIPTS:-$BASE_DIR/.scripts}
+
+_remover_postgres() {
+    sudo service postgresql stop
+    sudo yum -y erase postgresql-server postgresql-contrib
+    sudo userdel -rf postgres
+}
+
+_instalar_postgres() {
+    local pg_hba=/var/lib/pgsql/data/pg_hba.conf
+    sudo yum -y install postgresql-server postgresql-contrib
+    sudo service postgresql initdb
+    sudo sed -i 's/^\(local.*\)ident/\1trust/g;s/^\(host.*\)ident/\1trust/g' $pg_hba
+    if [ "$USER" = "vagrant" ]
+    then
+        sudo su postgres -c "printf \"\n\n# === CUSTOM VAGRANT SETTINGS === \n\" >> /var/lib/pgsql/data/postgresql.conf"
+        sudo su postgres -c "echo \"listen_addresses = '*'\" >> /var/lib/pgsql/data/postgresql.conf"
+        sudo su postgres -c "printf \"\n\n# === CUSTOM VAGRANT SETTINGS === \n\" >> $pg_hba"
+        sudo su postgres -c "printf \"host\tall\t\tall\t\t10.0.2.2/24\t\ttrust\n\" >> $pg_hba"
+    fi
+    sudo su postgres -c "printf \"\n\n# === SISLEGIS SETTINGS === \n\" >> $pg_hba"
+    sudo su postgres -c "printf \"host\tall\t\tall\t\t172.17.6.81/32\t\ttrust\n\" >> $pg_hba"
+    sudo su postgres -c "printf \"host\tall\t\tall\t\t172.17.6.82/32\t\ttrust\n\" >> $pg_hba"
+    sudo service postgresql start
+    sudo chkconfig postgresql on
+}
+
+_criar_sislegis() {
+    cat <<EOF | psql -U postgres
+create database sislegis;
+create user sislegis with password 'sislegis';
+grant all privileges on database "sislegis" to sislegis;
+\q
+EOF
+}
+
+_instalar() {
+    echo "Instalando a máquina do Postgres ..."
+
+    $SCRIPTS/restaurar-cache-de-pacotes
+    $SCRIPTS/atualizar-e-instalar-pacotes
+    _remover_postgres
+    _instalar_postgres
+    _criar_sislegis
+    #$SCRIPTS/salvar-cache-de-pacotes
+}
+
+_instalar
