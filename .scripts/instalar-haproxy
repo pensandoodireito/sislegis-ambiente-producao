@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_DIR=${BASE_DIR:-/vagrant}
-MASTER=${MASTER:-$BASE_DIR/master}
+MASTER=${MASTER:-$BASE_DIR/sislegis4}
 
 sudo yum -y install haproxy
 

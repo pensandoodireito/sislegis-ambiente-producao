@@ -1,0 +1,11 @@
+--- host-master.xml.original	2015-05-28 11:52:13.295477940 -0300
++++ host-master.xml	2015-05-28 11:54:44.204298451 -0300
+@@ -4,7 +4,7 @@
+    A simple configuration for a Host Controller that only acts as the master domain controller
+    and does not itself directly control any servers.
+ -->
+-<host name="master" xmlns="urn:jboss:domain:2.2">
++<host xmlns="urn:jboss:domain:2.2">
+ 
+     <management>
+         <security-realms>

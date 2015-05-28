@@ -1,1 +1,10 @@
-../.scripts/instalar-postgres
+#!/bin/bash
+set +x
+
+BASE_DIR=${BASE_DIR:-/vagrant}
+SCRIPTS=${SCRIPTS:-$BASE_DIR/.scripts}
+
+$SCRIPTS/restaurar-cache-de-pacotes
+$SCRIPTS/atualizar-e-instalar-pacotes
+$SCRIPTS/instalar-postgres
+#$SCRIPTS/salvar-cache-de-pacotes

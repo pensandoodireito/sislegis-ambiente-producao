@@ -1,13 +1,14 @@
 #!/bin/bash
 
 BASE_DIR=${BASE_DIR:-/vagrant}
+MASTER=${MASTER:-$BASE_DIR/sislegis4}
 BACKUP_DIR=${BACKUP_DIR:-$BASE_DIR/.backup}
 POSTGRESQL_JDBC_DRIVER_URL=http://jdbc.postgresql.org/download/postgresql-9.4-1201.jdbc41.jar
 POSTGRESQL_JDBC_DRIVER=${POSTGRESQL_JDBC_DRIVER_URL##*/}
 WILDFLY_URL=http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz
 WILDFLY=$BACKUP_DIR/${WILDFLY_URL##*/}
 
-echo "Instalando o wildfly no master ..."
+echo "Instalando o wildfly na máquina master ($MASTER) ..."
 
 sudo pkill -u wildfly
 sudo userdel -rf wildfly
@@ -32,13 +33,13 @@ SHUTDOWN_WAIT=30
 JBOSS_CONSOLE_LOG=/var/log/wildfly/console.log
 EOF
 sudo chkconfig wildfly on
-for f in wildfly/{bin/domain.conf,domain/configuration/domain.xml}
+for f in wildfly/{bin/domain.conf,domain/configuration/{domain.xml,host-master.xml}}
 do
-    sudo -u wildfly patch $f < $BASE_DIR/master/$f.diff
+    sudo -u wildfly patch $f < $MASTER/$f.diff
 done
 for f in wildfly/domain/configuration/mgmt-*
 do
-    sudo -u wildfly cp $BASE_DIR/master/$f $(dirname $f)
+    sudo -u wildfly cp $MASTER/$f $(dirname $f)
     sudo -u wildfly chmod 600 $f
 done
 

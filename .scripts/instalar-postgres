@@ -1,9 +1,6 @@
 #!/bin/bash
 set +x
 
-BASE_DIR=${BASE_DIR:-/vagrant}
-SCRIPTS=${SCRIPTS:-$BASE_DIR/.scripts}
-
 _remover_postgres() {
     sudo service postgresql stop
     sudo yum -y erase postgresql-server postgresql-contrib
@@ -39,14 +36,11 @@ EOF
 }
 
 _instalar() {
-    echo "Instalando a máquina do Postgres ..."
+    echo "Instalando o Postgres ..."
 
-    $SCRIPTS/restaurar-cache-de-pacotes
-    $SCRIPTS/atualizar-e-instalar-pacotes
     _remover_postgres
     _instalar_postgres
     _criar_sislegis
-    #$SCRIPTS/salvar-cache-de-pacotes
 }
 
 _instalar
