@@ -2,6 +2,11 @@
 # vim: set ft=ruby ts=2 sw=2 expandtab:
 
 Vagrant.configure(2) do |config|
+
+  # ajusta do default provider para o virtualbox
+  ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+  # Todas as VMs são baseadas no CentOS 6.6
   config.vm.box = "boxcutter/centos66"
 
   # sislegis4 - Wildfly master, HAProxy  
