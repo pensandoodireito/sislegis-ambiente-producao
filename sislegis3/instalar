@@ -9,4 +9,5 @@ $SCRIPTS/atualizar-e-instalar-pacotes
 $SCRIPTS/instalar-postgres
 $SCRIPTS/instalar-oracle-jdk
 $SCRIPTS/instalar-keycloak
+$SCRIPTS/configurar-redirecionamento-porta80
 #$SCRIPTS/salvar-cache-de-pacotes

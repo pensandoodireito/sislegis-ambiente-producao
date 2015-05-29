@@ -10,6 +10,10 @@ if [ "$1" -a "$2" ]
 then
     configurar $1 $2
 else
+    for i in `seq 4`
+    do
+        configurar 172.17.6.8$i sislegis$i
+    done
     configurar 172.17.6.84 sislegis.mj.gov.br
     configurar 172.17.6.83 keycloak.mj.gov.br
 fi
