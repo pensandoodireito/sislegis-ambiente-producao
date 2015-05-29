@@ -1,12 +1,11 @@
 #!/bin/bash
-set -x
+set +x
 
 BASE_DIR=${BASE_DIR:-/vagrant}
-source $BASE_DIR/config || exit $?
-
-SLAVE=${1:-`hostname -s`}
-SLAVE_IP=${SLAVE}_ip
-MASTER_IP=${master}_ip
+SCRIPTS_DIR=$BASE_DIR/.scripts
+SLAVE=`hostname -s`
+MASTER_IP=172.17.6.84
+SLAVE_IP=`cat $BASE_DIR/$SLAVE/ip`
 BACKUP_DIR=${BACKUP_DIR:-$BASE_DIR/.backup}; mkdir -p $BACKUP_DIR
 POSTGRESQL_JDBC_DRIVER_URL=http://jdbc.postgresql.org/download/postgresql-9.4-1201.jdbc41.jar
 POSTGRESQL_JDBC_DRIVER=${POSTGRESQL_JDBC_DRIVER_URL##*/}
@@ -39,10 +38,16 @@ JBOSS_CONSOLE_LOG=/var/log/wildfly/console.log
 EOF
 sudo chkconfig wildfly on
 
-for f in wildfly/{bin/domain.conf,domain/configuration/host-slave.xml}
-do
-    sudo -u wildfly patch $f < $BASE_DIR/$SLAVE/$f.diff
-done
+f=wildfly/bin/domain.conf
+sudo -u wildfly patch $f < $SCRIPTS_DIR/slave/$f.diff
+sudo -u wildfly sed -i \
+-e "s/JBOSS_DOMAIN_MASTER_ADDRESS/$MASTER_IP/g" \
+-e "s/JBOSS_BIND_ADDRESS/$SLAVE_IP/g" \
+$f
+
+f=wildfly/domain/configuration/host-slave.xml
+sudo -u wildfly patch $f < $SCRIPTS_DIR/slave/$f.diff
+sudo -u wildfly sed -i "s/HOSTNAME/$SLAVE/g" $f
 
 wget -c -O $BACKUP_DIR/$POSTGRESQL_JDBC_DRIVER $POSTGRESQL_JDBC_DRIVER_URL
 

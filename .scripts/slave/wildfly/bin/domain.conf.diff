@@ -4,8 +4,8 @@
  if [ "x$JAVA_OPTS" = "x" ]; then
     JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
     JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
-+   JAVA_OPTS="$JAVA_OPTS -Djboss.domain.master.address=172.17.6.84"
-+   JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=172.17.6.81"
++   JAVA_OPTS="$JAVA_OPTS -Djboss.domain.master.address=JBOSS_DOMAIN_MASTER_ADDRESS"
++   JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=JBOSS_BIND_ADDRESS"
  else
     echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
  fi

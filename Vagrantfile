@@ -20,12 +20,9 @@ Vagrant.configure(2) do |config|
   config.vm.define "sislegis1" do |sislegis1|
     sislegis1.vm.hostname="sislegis1"
     sislegis1.vm.network "private_network", ip: "172.17.6.81"
+    sislegis1.vm.provision "shell", path: "sislegis1/instalar", privileged: false
     sislegis1.vm.provider "virtualbox" do |v|
       v.memory = 1024
-    end
-    sislegis1.vm.provision "shell" do |s|
-      s.path = "sislegis1/instalar"
-      s.privileged = false
     end
   end
 
@@ -33,12 +30,9 @@ Vagrant.configure(2) do |config|
   config.vm.define "sislegis2" do |sislegis2|
     sislegis2.vm.hostname="sislegis2"
     sislegis2.vm.network "private_network", ip: "172.17.6.82"
+    sislegis2.vm.provision "shell", path: "sislegis2/instalar", privileged: false
     sislegis2.vm.provider "virtualbox" do |v|
       v.memory = 1024
-    end
-    sislegis2.vm.provision "shell" do |s|
-      s.path = "sislegis2/instalar"
-      s.privileged = false
     end
   end
 
@@ -54,4 +48,5 @@ Vagrant.configure(2) do |config|
       s.privileged = false
     end
   end
+
 end
