@@ -1,0 +1,5 @@
+export sislegis1_ip=172.17.6.81
+export sislegis2_ip=172.17.6.82
+export sislegis3_ip=172.17.6.83
+export sislegis4_ip=172.17.6.84
+export master=sislegis4

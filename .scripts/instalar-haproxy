@@ -1,12 +1,11 @@
 #!/bin/bash
 
 BASE_DIR=${BASE_DIR:-/vagrant}
-MASTER=${MASTER:-$BASE_DIR/sislegis4}
 
 sudo yum -y install haproxy
 
 f=etc/haproxy/haproxy.cfg
-sudo cp $MASTER/haproxy/$f $(dirname /$f)
+sudo cp $BASE_DIR/`hostname -s`/haproxy/$f $(dirname /$f)
 
 sudo chkconfig haproxy on
 sudo service haproxy start

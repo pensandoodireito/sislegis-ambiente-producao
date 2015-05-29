@@ -1,0 +1,39 @@
+#!/bin/bash
+set +x
+
+BASE_DIR=${BASE_DIR:-/vagrant}
+BACKUP_DIR=${BACKUP_DIR:-$BASE_DIR/.backup}; mkdir -p $BACKUP_DIR
+KEYCLOAK_HOST=${1:-`hostname -s`}
+KEYCLOAK_URL=http://nbtelecom.dl.sourceforge.net/project/keycloak/1.2.0.Final/keycloak-1.2.0.Final.tar.gz
+KEYCLOAK=$BACKUP_DIR/${KEYCLOAK_URL##*/}
+
+echo "Instalando keycloak em $KEYCLOAK_HOST ..."
+
+sudo pkill -u keycloak
+sudo userdel -rf keycloak
+sudo rm -rf /etc/default/wildfly.conf /etc/init.d/keycloak /var/log/keycloak
+sudo rm -rf /opt/keycloak*
+
+wget -c -O $KEYCLOAK $KEYCLOAK_URL
+
+cd /opt
+sudo tar xvfz $KEYCLOAK
+sudo ln -s keycloak-1.2.0.Final/ keycloak
+sudo useradd keycloak
+sudo chown -R keycloak: keycloak-1.2.0.Final/
+sudo cp keycloak/bin/init.d/wildfly-init-redhat.sh /etc/init.d/keycloak
+cat <<'EOF' | sudo tee /etc/default/wildfly.conf
+JBOSS_HOME=/opt/keycloak
+JBOSS_USER=keycloak
+JBOSS_MODE=standalone
+STARTUP_WAIT=30
+SHUTDOWN_WAIT=30
+JBOSS_CONSOLE_LOG=/var/log/keycloak/console.log
+EOF
+cat <<'EOF' | sudo -u keycloak tee -a keycloak/bin/standalone.conf
+
+# Escuta em todas as interfaces
+JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=0.0.0.0"
+EOF
+sudo chkconfig keycloak on
+sudo service keycloak start

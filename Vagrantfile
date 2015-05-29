@@ -13,8 +13,6 @@ Vagrant.configure(2) do |config|
   config.vm.define "sislegis4" do |sislegis4|
     sislegis4.vm.hostname="sislegis4"
     sislegis4.vm.network "private_network", ip: "172.17.6.84"
-    sislegis4.vm.network :forwarded_port, guest: 9990, host: 9990
-    sislegis4.vm.network :forwarded_port, guest: 80, host: 8080
     sislegis4.vm.provision "shell", path: "sislegis4/instalar", privileged: false
   end
 
