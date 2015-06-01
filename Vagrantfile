@@ -9,7 +9,26 @@ Vagrant.configure(2) do |config|
   # Todas as VMs são baseadas no CentOS 6.6
   config.vm.box = "boxcutter/centos66"
 
-  # sislegis4 - Wildfly master, HAProxy  
+  # sislegis3 - construída primeiro para disponibilizar os seguintes serviços:
+  #
+  # 1) postgresql: banco utilizado pelo sislegis
+  # 2) keycloak: http://keycloak.mj.gov.br
+  config.vm.define "sislegis3" do |sislegis3|
+    sislegis3.vm.hostname="sislegis3"
+    sislegis3.vm.network "private_network", ip: "172.17.6.83"
+    sislegis3.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+    sislegis3.vm.provision "shell" do |s|
+      s.path = "sislegis3/instalar"
+      s.privileged = false
+    end
+  end
+
+  # sislegis4 - balanceador de carga (HAProxy) e controlador do domínio (master)
+  #
+  # HAProxy - http://sislegis.mj.gov.br
+  # Wildfly master - http://sislegis.mj.gov.br:9990
   config.vm.define "sislegis4" do |sislegis4|
     sislegis4.vm.hostname="sislegis4"
     sislegis4.vm.network "private_network", ip: "172.17.6.84"
@@ -33,19 +52,6 @@ Vagrant.configure(2) do |config|
     sislegis2.vm.provision "shell", path: "sislegis2/instalar", privileged: false
     sislegis2.vm.provider "virtualbox" do |v|
       v.memory = 1024
-    end
-  end
-
-  # sislegis3 - Wildfly keycloak, postgresql
-  config.vm.define "sislegis3" do |sislegis3|
-    sislegis3.vm.hostname="sislegis3"
-    sislegis3.vm.network "private_network", ip: "172.17.6.83"
-    sislegis3.vm.provider "virtualbox" do |v|
-      v.memory = 1024
-    end
-    sislegis3.vm.provision "shell" do |s|
-      s.path = "sislegis3/instalar"
-      s.privileged = false
     end
   end
 
