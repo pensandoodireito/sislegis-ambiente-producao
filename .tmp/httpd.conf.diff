@@ -1,0 +1,65 @@
+--- httpd.conf.original	2015-06-01 12:15:03.925137851 +0000
++++ httpd.conf	2015-06-01 18:15:38.879135109 +0000
+@@ -133,7 +133,7 @@
+ # prevent Apache from glomming onto all bound IP addresses (0.0.0.0)
+ #
+ #Listen 12.34.56.78:80
+-Listen 80
++Listen 172.17.6.84:80
+ 
+ #
+ # Dynamic Shared Object (DSO) Support
+@@ -189,7 +189,7 @@
+ LoadModule substitute_module modules/mod_substitute.so
+ LoadModule rewrite_module modules/mod_rewrite.so
+ LoadModule proxy_module modules/mod_proxy.so
+-LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
++#LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+ LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+ LoadModule proxy_http_module modules/mod_proxy_http.so
+ LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+@@ -199,7 +199,10 @@
+ LoadModule disk_cache_module modules/mod_disk_cache.so
+ LoadModule cgi_module modules/mod_cgi.so
+ LoadModule version_module modules/mod_version.so
+-
++LoadModule slotmem_module modules/mod_slotmem.so
++LoadModule manager_module modules/mod_manager.so
++LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
++LoadModule advertise_module modules/mod_advertise.so
+ #
+ # The following modules are not loaded by default:
+ #
+@@ -1007,3 +1010,32 @@
+ #    ErrorLog logs/dummy-host.example.com-error_log
+ #    CustomLog logs/dummy-host.example.com-access_log common
+ #</VirtualHost>
++
++# This Listen port is for the mod_cluster-manager, where you can see the status of mod_cluster.
++# Port 10001 is not a reserved port, so this prevents problems with SELinux.
++Listen 172.17.6.84:10001
++# This directive only applies to Red Hat Enterprise Linux. It prevents the temmporary
++# files from being written to /etc/httpd/logs/ which is not an appropriate location.
++MemManagerFile /var/cache/httpd
++ 
++<VirtualHost 172.17.6.84:10001>
++ 
++  <Directory />
++    Order deny,allow
++    Deny from all
++    Allow from 172.17.6.
++  </Directory>
++ 
++  <Location /mod_cluster-manager>
++   SetHandler mod_cluster-manager
++   Order deny,allow
++   Deny from all
++   Allow from 172.17.6.
++  </Location>
++ 
++  KeepAliveTimeout 60
++  MaxKeepAliveRequests 0
++  ServerAdvertise Off
++  EnableMCPMReceive Off
++ 
++</VirtualHost>

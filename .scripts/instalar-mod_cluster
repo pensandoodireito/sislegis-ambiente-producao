@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Observações: 
+# 1) A versão 1.3.1 dá problema com a versão 2.2.15 do httpd => não usar!
+# 2) A versão 1.2.6 não dá problemas. É utilizada aqui.
+# 3) Após configurado, o acesso a interface administrativa fica disponível em
+#    http://sislegis.mj.gov.br:10001/mod_cluster-manager
+
+BASE_DIR=${BASE_DIR:-/vagrant}
+
+sudo yum -y install httpd
+wget -O /vagrant/.backup/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz http://downloads.jboss.org/mod_cluster//1.2.6.Final/linux-x86_64/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz
+sudo tar xvfz /vagrant/.backup/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz -C /etc/httpd/modules/
+sudo service httdp on
+sudo service httpd start

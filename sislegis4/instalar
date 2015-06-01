@@ -7,6 +7,7 @@ $SCRIPTS/restaurar-cache-de-pacotes
 $SCRIPTS/atualizar-e-instalar-pacotes
 $SCRIPTS/configurar-hosts 172.17.6.84 sislegis.mj.gov.br
 $SCRIPTS/instalar-oracle-jdk
-$SCRIPTS/instalar-haproxy
+#$SCRIPTS/instalar-haproxy
+$SCRIPTS/instalar-mod_cluster
 $SCRIPTS/instalar-wildfly-master
 #$SCRIPTS/salvar-cache-de-pacotes
