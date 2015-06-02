@@ -1,0 +1,5 @@
+batch
+/profile=full-ha/subsystem=modcluster/mod-cluster-config=configuration/:write-attribute(name=proxy-list,value="172.17.6.84:10001")
+/profile=full-ha/subsystem=modcluster/mod-cluster-config=configuration/:write-attribute(name=advertise,value=false)
+run-batch
+exit

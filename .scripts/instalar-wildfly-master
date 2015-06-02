@@ -13,10 +13,15 @@ echo "Instalando o wildfly na máquina master ($MASTER) ..."
 
 sudo pkill -u wildfly
 sudo userdel -rf wildfly
-sudo rm -f /etc/default/wildfly.conf /etc/init.d/wildfly
+sudo rm -f /etc/default/wildfly.conf /etc/init.d/wildfly /etc/profile.d/wildfly.sh
 sudo rm -rf /opt/wildfly*
 
 wget -c -O $WILDFLY $WILDFLY_URL
+
+cat <<'EOF' | sudo tee /etc/profile.d/wildfly.sh
+export JBOSS_HOME=/opt/wildfly
+export PATH=$JBOSS_HOME/bin:$PATH
+EOF
 
 cd /opt
 sudo tar xvfz $WILDFLY
@@ -63,3 +68,8 @@ cat <<EOF | sudo -u wildfly tee $driver_dir/module.xml
 EOF
 
 sudo service wildfly start
+
+for f in $BASE_DIR/$MASTER/wildfly/scripts/*
+do
+    sudo -u wildfly -i jboss-cli.sh --connect --file=$f
+done

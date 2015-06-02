@@ -10,4 +10,6 @@ $SCRIPTS/instalar-oracle-jdk
 #$SCRIPTS/instalar-haproxy
 $SCRIPTS/instalar-mod_cluster
 $SCRIPTS/instalar-wildfly-master
+$SCRIPTS/instalar-maven
+$SCRIPTS/instalar-cluster-test
 #$SCRIPTS/salvar-cache-de-pacotes

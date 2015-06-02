@@ -1,0 +1,29 @@
+--- httpd.conf.original	2015-06-02 13:46:23.697997834 +0000
++++ httpd.conf	2015-06-02 14:56:10.601995598 +0000
+@@ -133,7 +133,7 @@
+ # prevent Apache from glomming onto all bound IP addresses (0.0.0.0)
+ #
+ #Listen 12.34.56.78:80
+-Listen 80
++Listen 172.17.6.84:80
+ 
+ #
+ # Dynamic Shared Object (DSO) Support
+@@ -189,7 +189,7 @@
+ LoadModule substitute_module modules/mod_substitute.so
+ LoadModule rewrite_module modules/mod_rewrite.so
+ LoadModule proxy_module modules/mod_proxy.so
+-LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
++#LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+ LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+ LoadModule proxy_http_module modules/mod_proxy_http.so
+ LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+@@ -272,7 +272,7 @@
+ # You will have to access it by its address anyway, and this will make 
+ # redirections work in a sensible way.
+ #
+-#ServerName www.example.com:80
++ServerName sislegis.mj.gov.br:80
+ 
+ #
+ # UseCanonicalName: Determines how Apache constructs self-referencing 

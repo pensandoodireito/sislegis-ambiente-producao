@@ -1,2 +1,4 @@
 .backup
 .vagrant
+.tmp/Advertize.class
+.scripts/cluster-test/target

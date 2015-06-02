@@ -39,14 +39,14 @@ EOF
 sudo chkconfig wildfly on
 
 f=wildfly/bin/domain.conf
-sudo -u wildfly patch $f < $SCRIPTS_DIR/slave/$f.diff
+sudo -u wildfly patch $f < $SCRIPTS_DIR/wildfly-slave/$f.diff
 sudo -u wildfly sed -i \
 -e "s/JBOSS_DOMAIN_MASTER_ADDRESS/$MASTER_IP/g" \
 -e "s/JBOSS_BIND_ADDRESS/$SLAVE_IP/g" \
 $f
 
 f=wildfly/domain/configuration/host-slave.xml
-sudo -u wildfly patch $f < $SCRIPTS_DIR/slave/$f.diff
+sudo -u wildfly patch $f < $SCRIPTS_DIR/wildfly-slave/$f.diff
 sudo -u wildfly sed -i "s/HOSTNAME/$SLAVE/g" $f
 
 wget -c -O $BACKUP_DIR/$POSTGRESQL_JDBC_DRIVER $POSTGRESQL_JDBC_DRIVER_URL

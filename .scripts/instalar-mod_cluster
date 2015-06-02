@@ -7,9 +7,19 @@
 #    http://sislegis.mj.gov.br:10001/mod_cluster-manager
 
 BASE_DIR=${BASE_DIR:-/vagrant}
+MASTER=`hostname -s`
+
+sudo yum -y erase httpd
+sudo rm -rf /etc/httpd
 
 sudo yum -y install httpd
-wget -O /vagrant/.backup/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz http://downloads.jboss.org/mod_cluster//1.2.6.Final/linux-x86_64/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz
+wget -O /vagrant/.backup/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz http://downloads.jboss.org/mod_cluster/1.2.6.Final/linux-x86_64/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz
 sudo tar xvfz /vagrant/.backup/mod_cluster-1.2.6.Final-linux2-x64-so.tar.gz -C /etc/httpd/modules/
-sudo service httdp on
+f=etc/httpd/conf/httpd.conf
+sudo patch /$f < $BASE_DIR/$MASTER/httpd/$f.diff
+f=etc/httpd/conf.d/mod_cluster.conf
+pushd $BASE_DIR/$MASTER/httpd &> /dev/null
+sudo cp --parents $f /
+popd &> /dev/null
 sudo service httpd start
+sudo chkconfig httpd on

@@ -15,6 +15,6 @@ wget -c \
 sudo yum -y install $BACKUP_DIR/${JDK_VERSION##*/}
 
 cat << 'EOF' | sudo tee /etc/profile.d/java.sh
-export JAVA_HOME=/usr/java/latest/
+export JAVA_HOME=/usr/java/latest
 export PATH=$JAVA_HOME/bin:$PATH
 EOF

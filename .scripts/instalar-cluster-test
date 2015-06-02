@@ -1,0 +1,16 @@
+#!/bin/bash
+set +x
+
+BASE_DIR=${BASE_DIR:-/vagrant}
+SCRIPTS_DIR=$BASE_DIR/.scripts
+
+echo "Instalando cluster-test ..."
+
+if ! [ "$M2_HOME" ]
+then
+   f=/etc/profile.d/maven.sh; [ -f $f ] && source $f || { echo "Maven não instalado!"; exit 1; }
+fi
+cd $SCRIPTS_DIR/cluster-test
+mvn clean package
+sudo -u wildfly -i jboss-cli.sh -c \
+--command="deploy $PWD/target/cluster-test-1.0-SNAPSHOT.war --server-groups=sislegis"
